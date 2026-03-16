@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riduan FF Token Pro</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="bg-fx">
+        <div class="glow-orb orb-primary"></div>
+        <div class="glow-orb orb-secondary"></div>
+        <div class="glow-orb orb-accent"></div>
+        <div class="noise-bg"></div>
+    </div>
+
+    <main class="container">
+        <header class="app-header">
+            <div class="logo-box">
+                <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <h1>Riduan FF Token Pro</h1>
+            <p>Free Fire Token Generator Tool</p>
+        </header>
+
+        <div class="tutorial-card premium-glass">
+            <div class="tut-content">
+                <div class="tut-icon"><i class="fa-solid fa-video"></i></div>
+                <div class="tut-text">
+                    <h3>How to use this tool?</h3>
+                    <p>Watch this video tutorial to learn how to extract Access Token and JWT Token easily.</p>
+                </div>
+            </div>
+            <a href="https://t.me/+tLrWPddq0VM4Mzk1" target="_blank" class="btn-glow-play">
+                <i class="fa-solid fa-play"></i> Watch Video
+            </a>
+        </div>
+
+        <section class="wizard-container premium-glass">
+            
+            <div id="view-step-1" class="step-view active-view">
+                <div class="card-title">
+                    <h2>Select Input Method</h2>
+                    <p>Choose what you want to use to generate the token</p>
+                </div>
+                
+                <div class="method-grid">
+                    <div class="method-card" onclick="selectInput('uid_pass')">
+                        <div class="icon-wrap clr-blue"><i class="fa-solid fa-user-lock"></i></div>
+                        <span class="opt-text">UID & Password</span>
+                    </div>
+                    
+                    <div class="method-card" onclick="selectInput('eat')">
+                        <div class="icon-wrap clr-orange"><i class="fa-solid fa-cookie-bite"></i></div>
+                        <span class="opt-text">EAT Token</span>
+                    </div>
+
+                    <div class="method-card full-span" onclick="selectInput('access')">
+                        <div class="icon-wrap clr-purple"><i class="fa-solid fa-ticket"></i></div>
+                        <span class="opt-text">Access Token</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="view-step-2" class="step-view hidden-view">
+                <div class="step-header">
+                    <button class="btn-back" onclick="goBack(1)"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                </div>
+                <div class="card-title">
+                    <h2>Select Output Token</h2>
+                    <p>Choose which token you want to create</p>
+                </div>
+                
+                <div class="method-grid">
+                    <div class="method-card" id="opt-out-access" onclick="selectOutput('access')">
+                        <div class="icon-wrap clr-green"><i class="fa-solid fa-key"></i></div>
+                        <span class="opt-text">Access Token</span>
+                    </div>
+                    <div class="method-card" id="opt-out-jwt" onclick="selectOutput('jwt')">
+                        <div class="icon-wrap clr-cyan"><i class="fa-solid fa-certificate"></i></div>
+                        <span class="opt-text">JWT Token</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="view-step-3" class="step-view hidden-view">
+                <div class="step-header">
+                    <button class="btn-back" id="back-to-step2" onclick="goBack(2)"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                </div>
+                <div class="card-title">
+                    <h2>Enter Account Details</h2>
+                    <p>Provide the required information below</p>
+                </div>
+                
+                <form id="generate-token-form" class="input-group">
+                    <div id="grp-uid-pass" class="dynamic-input-group">
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-id-card icon-left"></i>
+                            <input type="text" id="inp-uid" placeholder="Enter Player UID..." autocomplete="off">
+                        </div>
+                        <div class="input-wrapper">
+                            <i class="fa-solid fa-lock icon-left"></i>
+                            <input type="password" id="inp-pass" placeholder="Enter Password..." autocomplete="off">
+                        </div>
+                    </div>
+
+                    <div id="grp-eat" class="dynamic-input-group input-wrapper">
+                        <i class="fa-solid fa-link icon-left"></i>
+                        <input type="text" id="inp-eat" placeholder="Paste EAT Token or Link..." autocomplete="off">
+                    </div>
+
+                    <div id="grp-access" class="dynamic-input-group input-wrapper">
+                        <i class="fa-solid fa-ticket icon-left"></i>
+                        <input type="text" id="inp-access" placeholder="Paste Access Token..." autocomplete="off">
+                    </div>
+
+                    <button type="submit" class="btn-primary" id="gen-btn">
+                        <span>Generate Token</span> <i class="fa-solid fa-bolt-lightning"></i>
+                    </button>
+                </form>
+                <div id="gen-error-msg" class="alert-error" style="display: none;"></div>
+            </div>
+
+            <div id="view-step-4" class="step-view hidden-view result-glow-panel">
+                <div class="result-head">
+                    <div class="success-icon-wrap">
+                        <i class="fa-solid fa-check"></i>
+                    </div>
+                    <h2>Token Generated Successfully!</h2>
+                </div>
+                <div class="data-grid" id="results-grid">
+                    </div>
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button class="btn-outline" onclick="startOver()"><i class="fa-solid fa-rotate-right"></i> Generate Another</button>
+                </div>
+            </div>
+
+        </section>
+
+        <section class="developer-connect">
+            <p class="dev-tag">Developed by <span>Riduanul Islam</span></p>
+            <div class="social-dock">
+                <a href="https://m.youtube.com/@riduan0?sub_confirmation=1" target="_blank" class="social-pill yt"><i class="fa-brands fa-youtube"></i></a>
+                <a href="https://www.facebook.com/share/1KfA6dirNN/" target="_blank" class="social-pill fb"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="https://www.instagram.com/riduanulislam03?igsh=eWZ6cWo0bWc0bjdy" target="_blank" class="social-pill ig"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://www.tiktok.com/@riduanulislam03?" target="_blank" class="social-pill tt"><i class="fa-brands fa-tiktok"></i></a>
+                <a href="https://t.me/RiduanOfficialBD" target="_blank" class="social-pill tg"><i class="fa-brands fa-telegram"></i></a>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="app-footer">
+        <p>&copy; 2026 Riduan FF Token Pro. All rights reserved.</p>
+    </footer>
+
+    <div id="toast" class="toast-popup"><i class="fa-solid fa-circle-check"></i> <span>Copied to clipboard!</span></div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
